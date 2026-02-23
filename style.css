@@ -1,0 +1,123 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial';
+    overflow: hidden;
+}
+
+/* INTRO */
+
+.intro {
+    height: 100vh;
+    background: linear-gradient(to bottom, #ffd6e8, #fff);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.intro h1 {
+    font-size: 2.5rem;
+    color: #e91e63;
+}
+
+.tulip {
+    width: 250px;
+    cursor: pointer;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+/* SLIDE */
+
+.slide {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    pointer-events: none;
+}
+
+/* DARK OVERLAY */
+.slide::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 1;
+}
+
+.slide-content {
+    position: relative;
+    z-index: 3;
+    font-size: 1.5rem;
+    line-height: 1.6;
+    padding: 20px;
+    max-width: 80%;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+}
+
+/* SCRAPBOOK PHOTOS */
+
+.scrap-photo {
+    position: absolute;
+    width: 140px;
+    border: 8px solid black;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    transition: 0.3s;
+    z-index: 2;
+}
+
+.scrap-photo:nth-child(1) {
+    top: 15%;
+    left: 10%;
+    transform: rotate(-10deg);
+}
+
+.scrap-photo:nth-child(2) {
+    bottom: 20%;
+    right: 12%;
+    transform: rotate(12deg);
+}
+
+.scrap-photo:nth-child(3) {
+    top: 25%;
+    right: 15%;
+    transform: rotate(-5deg);
+}
+
+/* BUTTONS */
+
+button {
+    padding: 15px 25px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 10px;
+    background: #ff4f9a;
+    color: white;
+    transition: 0.3s ease;
+}
+
+button:hover {
+    transform: scale(1.1);
+    background: #ff2e84;
+}
+
+.btn-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
