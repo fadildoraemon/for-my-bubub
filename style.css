@@ -162,3 +162,14 @@ button:hover {
     white-space: nowrap;
     font-weight: bold;
 }
+
+@keyframes shake {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(-5px, 0) rotate(-5deg); }
+    50% { transform: translate(5px, 0) rotate(5deg); }
+    75% { transform: translate(-5px, 0) rotate(-5deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+  }
+  .shake {
+    animation: shake 0.3s ease;
+  }
