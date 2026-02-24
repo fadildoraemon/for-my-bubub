@@ -58,10 +58,10 @@ scrap: ["small1.jpeg", "small3.jpeg"]
     {
     background: "foto5.jpeg",
     text: `
-    <div class="btn-container">
-    <button onclick="growThenExplode(this)">I love you ❤️</button>
-    <button onclick="growThenExplode(this)">I love you more 💕</button>
-    <button onclick="growThenExplode(this)">I love you so much more sayang 💖💐</button>
+<div class="btn-container">
+    <button onclick="growShakeThenExplode(this)">I love you ❤️</button>
+    <button onclick="growShakeThenExplode(this)">I love you more 💕</button>
+    <button onclick="growShakeThenExplode(this)">I love you so much more sayang 💖💐</button>
 </div>
     `,
     scrap: []
@@ -128,34 +128,32 @@ function loveMessage() {
     alert("AAAA MAAACIIIII CAYANG ATUUUU 😭💖 YOU'RE THE LOVE OF MY LIFE");
 }
 
-function growThenExplode(btn) {
-    // ambil scale saat ini
-    const style = window.getComputedStyle(btn);
-    const matrix = new WebKitCSSMatrix(style.transform);
-    let currentScale = matrix.a; // scaleX
-    if (currentScale === 0) currentScale = 1;
+function growShakeThenExplode(btn) {
+    // --- shake ---
+    btn.classList.add('shake');
+    setTimeout(() => btn.classList.remove('shake'), 300);
 
-    const maxScale = 5;
+    // --- ambil scale dari dataset, default 1 ---
+    let currentScale = parseFloat(btn.dataset.scale) || 1;
     const increment = 0.5;
+    const maxScale = window.innerWidth < 500 ? 3 : 5; // HP kecil
 
     if (currentScale + increment < maxScale) {
-        // tombol masih bisa dibesarkan
-        const newScale = currentScale + increment;
+        // masih bisa membesar
+        currentScale += increment;
+        btn.dataset.scale = currentScale;
         btn.style.transition = "transform 0.3s ease";
-        btn.style.transform = `scale(${newScale})`;
+        btn.style.transform = `scale(${currentScale})`;
     } else {
-        // tombol sudah maksimum → meledak
-
-        // HILANGKAN tombol
+        // meledak
         btn.style.opacity = 0;
         btn.style.pointerEvents = "none";
 
-        // ledakan shards di seluruh layar
+        // shards explode di seluruh layar
         const shards = 50;
         for (let i = 0; i < shards; i++) {
             const shard = document.createElement('div');
             shard.className = 'shard';
-            // random posisi awal di layar
             shard.style.left = `${Math.random() * window.innerWidth}px`;
             shard.style.top = `${Math.random() * window.innerHeight}px`;
             shard.style.setProperty('--x', `${(Math.random()-0.5)*400}px`);
@@ -164,16 +162,16 @@ function growThenExplode(btn) {
             setTimeout(() => shard.remove(), 1000);
         }
 
-        // teks cinta menempel di layar (tidak jatuh)
+        // teks stuck muncul
         const texts = 30;
         for (let i = 0; i < texts; i++) {
             const text = document.createElement('div');
             text.className = 'stuck-text';
             text.textContent = "I love you so much more 💗";
-            text.style.left = `${Math.random()*window.innerWidth}px`;
-            text.style.top = `${Math.random()*window.innerHeight}px`;
-            text.style.fontSize = `${Math.random()*25 + 15}px`;
-            text.style.color = `hsl(${Math.random()*360}, 80%, 60%)`;
+            text.style.left = `${Math.random() * (window.innerWidth - 50)}px`;
+            text.style.top = `${Math.random() * (window.innerHeight - 50)}px`;
+            text.style.fontSize = `${Math.random() * 25 + 15}px`;
+            text.style.color = `hsl(${Math.random() * 360}, 80%, 60%)`;
             text.style.textShadow = `0 0 10px ${text.style.color}, 0 0 20px ${text.style.color}`;
             document.body.appendChild(text);
         }
