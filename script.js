@@ -59,10 +59,10 @@ scrap: ["small1.jpeg", "small3.jpeg"]
     background: "foto5.jpeg",
     text: `
     <div class="btn-container">
-    <button onclick="loveMessage()">I love you ❤️</button>
-    <button onclick="loveMessage()">I love you more 💕</button>
-    <button onclick="loveMessage()">I love you so much more sayang 💖💐</button>
-    </div>
+    <button onclick="growThenExplode(this)">I love you ❤️</button>
+    <button onclick="growThenExplode(this)">I love you more 💕</button>
+    <button onclick="growThenExplode(this)">I love you so much more sayang 💖💐</button>
+</div>
     `,
     scrap: []
     }
@@ -128,3 +128,54 @@ function loveMessage() {
     alert("AAAA MAAACIIIII CAYANG ATUUUU 😭💖 YOU'RE THE LOVE OF MY LIFE");
 }
 
+function growThenExplode(btn) {
+    // ambil scale saat ini
+    const style = window.getComputedStyle(btn);
+    const matrix = new WebKitCSSMatrix(style.transform);
+    let currentScale = matrix.a; // scaleX
+    if (currentScale === 0) currentScale = 1;
+
+    const maxScale = 5;
+    const increment = 0.5;
+
+    if (currentScale + increment < maxScale) {
+        // tombol masih bisa dibesarkan
+        const newScale = currentScale + increment;
+        btn.style.transition = "transform 0.3s ease";
+        btn.style.transform = `scale(${newScale})`;
+    } else {
+        // tombol sudah maksimum → meledak
+
+        // HILANGKAN tombol
+        btn.style.opacity = 0;
+        btn.style.pointerEvents = "none";
+
+        // ledakan shards di seluruh layar
+        const shards = 50;
+        for (let i = 0; i < shards; i++) {
+            const shard = document.createElement('div');
+            shard.className = 'shard';
+            // random posisi awal di layar
+            shard.style.left = `${Math.random() * window.innerWidth}px`;
+            shard.style.top = `${Math.random() * window.innerHeight}px`;
+            shard.style.setProperty('--x', `${(Math.random()-0.5)*400}px`);
+            shard.style.setProperty('--y', `${(Math.random()-0.5)*400}px`);
+            document.body.appendChild(shard);
+            setTimeout(() => shard.remove(), 1000);
+        }
+
+        // teks cinta menempel di layar (tidak jatuh)
+        const texts = 30;
+        for (let i = 0; i < texts; i++) {
+            const text = document.createElement('div');
+            text.className = 'stuck-text';
+            text.textContent = "I love you so much more 💗";
+            text.style.left = `${Math.random()*window.innerWidth}px`;
+            text.style.top = `${Math.random()*window.innerHeight}px`;
+            text.style.fontSize = `${Math.random()*25 + 15}px`;
+            text.style.color = `hsl(${Math.random()*360}, 80%, 60%)`;
+            text.style.textShadow = `0 0 10px ${text.style.color}, 0 0 20px ${text.style.color}`;
+            document.body.appendChild(text);
+        }
+    }
+}
